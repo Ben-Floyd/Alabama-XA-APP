@@ -17,37 +17,42 @@ class Menu extends StatelessWidget {
 
   Widget _buildPageListing(String page, BuildContext context)
   {
-    return GestureDetector(
+    return ListTile(
       onTap: ()
-        {
-          if (page == currentPage)
-            Navigator.pop(context);
-          else
-            currentPage == page;
-        },
-      child: page == currentPage
-        ? Column(
-          children: <Widget>[
-            SizedBox(height: 16.0,),
-            Text(
-              page,
-              textAlign: TextAlign.center,
-            ),
-            SizedBox(height: 14.0),
-            Container(
-              width: 70.0,
-              height: 2.0,
-              color: Colors.red[900],
-            ),
-          ],
-        )
-        : Padding(
-          padding: EdgeInsets.symmetric(vertical: 16.0),
-          child: Text(
+      {
+        currentPage = page;
+        // update app state
+        Navigator.pop(context);
+      },
+      title: page == currentPage
+          ? Column(
+        children: <Widget>[
+          SizedBox(height: 16.0,),
+          Text(
             page,
+            style: TextStyle(
+              color: Colors.white,
+            ),
             textAlign: TextAlign.center,
           ),
+          SizedBox(height: 14.0),
+          Container(
+            width: 70.0,
+            height: 2.0,
+            color: Colors.red[900],
+          ),
+        ],
       )
+          : Padding(
+        padding: EdgeInsets.symmetric(vertical: 16.0),
+        child: Text(
+          page,
+          style: TextStyle(
+            color: Colors.white70,
+          ),
+          textAlign: TextAlign.center,
+        ),
+      ),
     );
   }
 
