@@ -121,7 +121,7 @@ class _HomePageState extends State<HomePage>
   Route _createMenuRoute()
   {
     return PageRouteBuilder(
-        pageBuilder: (context, animation, secondaryAnimation) => Menu(),
+        pageBuilder: (context, animation, secondaryAnimation) => Menu(currentPage: 'Home',),
         transitionsBuilder: (context, animation, secondaryAnimation, child)
         {
           var begin = Offset(-1, 0);
