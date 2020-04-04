@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'home.dart';
+import 'frame.dart';
 
 class UAChiAlphaApp extends StatelessWidget
 {
@@ -9,7 +9,7 @@ class UAChiAlphaApp extends StatelessWidget
   {
     return MaterialApp(
       title: 'UA XA',
-      home: HomePage(),
+      home: Frame(),
     );
   }
 }
