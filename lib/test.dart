@@ -82,7 +82,7 @@ class _FrameState extends State<Frame>
                   backgroundColor: Colors.white70,
                   centerTitle: true,
                   floating: true,
-                  snap: true,
+                  snap: false,
                 ),
             ];
           },
