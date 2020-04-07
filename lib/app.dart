@@ -10,6 +10,24 @@ class UAChiAlphaApp extends StatelessWidget
     return MaterialApp(
       title: 'UA XA',
       home: Frame(),
+      themeMode: ThemeMode.light,
+      theme: ThemeData(
+        brightness: Brightness.light,
+        primaryColor: Colors.white,
+        accentColor: Colors.redAccent[700],
+        indicatorColor: Colors.red[900],
+        primaryIconTheme: IconThemeData(
+          color: Colors.black54,
+        ),
+        primaryTextTheme: TextTheme(
+          button: TextStyle(
+            color: Colors.black87,
+          ),
+        )
+      ),
+      darkTheme: ThemeData(
+        brightness: Brightness.dark,
+      ),
     );
   }
 }

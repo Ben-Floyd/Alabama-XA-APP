@@ -46,7 +46,7 @@ class _LoginPageState extends State<LoginPage>
               children: <Widget>[
                 FlatButton(
                   child: Text('CANCEL'),
-                  textColor: Colors.black87,
+                  textColor: Theme.of(context).primaryTextTheme.button.color,
                   onPressed: ()
                   {
                     // Checks Keyboard Visibility
@@ -66,7 +66,7 @@ class _LoginPageState extends State<LoginPage>
                 ),
                 RaisedButton(
                   child: Text('LOGIN'),
-                  color: Colors.redAccent[700],
+                  color: Theme.of(context).accentColor,
                   onPressed: ()
                   {
                     //TODO login and display snack

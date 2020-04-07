@@ -2,72 +2,43 @@ import 'package:flutter/material.dart';
 
 import 'package:meta/meta.dart';
 
-class Menu extends StatelessWidget {
+import 'settings.dart';
+import 'frame.dart';
 
-  String currentPage;
-  //final ValueChanged<String> onPageTap;
-  final List<String> _pages = const ['Home', 'News', 'D-Group', 'Events', 'Library', 'About'];
+class MenuPage extends StatelessWidget {
 
-  Menu({
+  final String currentPage;
+  final List<String> _pages = const ['Home', 'News', 'D-Group', 'Events', 'Library', 'Pray', 'Teams', 'Missions', 'About'];
+
+  MenuPage({
     Key key,
     @required this.currentPage,
     //@required this.onPageTap,
   }) : assert(currentPage != null);
      //assert(onPageTap != null);
 
-  Widget _buildPageListing(String page, BuildContext context)
-  {
-    return ListTile(
-      onTap: ()
-      {
-        currentPage = page;
-        // update app state
-        Navigator.pop(context);
-      },
-      title: page == currentPage
-          ? Column(
-        children: <Widget>[
-          SizedBox(height: 16.0,),
-          Text(
-            page,
-            style: TextStyle(
-              color: Colors.white,
-            ),
-            textAlign: TextAlign.center,
-          ),
-          SizedBox(height: 14.0),
-          Container(
-            width: 70.0,
-            height: 2.0,
-            color: Colors.red[900],
-          ),
-        ],
-      )
-          : Padding(
-        padding: EdgeInsets.symmetric(vertical: 16.0),
-        child: Text(
-          page,
-          style: TextStyle(
-            color: Colors.white70,
-          ),
-          textAlign: TextAlign.center,
-        ),
-      ),
-    );
-  }
-
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios,),
+          icon: Icon(Icons.arrow_back_ios, color: Theme.of(context).textTheme.button.color,),
           onPressed: ()
           {
             Navigator.pop(context);
           },
         ),
-        title: Text('Menu',),
-        backgroundColor: Colors.red[700],
+        title: Text('Menu', style: TextStyle(color: Theme.of(context).textTheme.button.color),),
+        actions: <Widget>
+        [
+          IconButton(
+            icon: Icon(Icons.settings, color: Theme.of(context).textTheme.button.color,),
+            onPressed: ()
+            {
+              Navigator.of(context).push(_createSettingsRoute());
+            },
+          )
+        ],
+        backgroundColor: Colors.transparent,
         elevation: 0,
         centerTitle: false,
       ),
@@ -80,7 +51,71 @@ class Menu extends StatelessWidget {
           ),
         ),
       ),
-      backgroundColor: Colors.red[700],
+      backgroundColor: Theme.of(context).primaryColor,
+    );
+  }
+
+  Widget _buildPageListing(String page, BuildContext context)
+  {
+    return ListTile(
+      onTap: ()
+      {
+        //currentPage = page;
+        //TODO update app state
+
+
+
+        Navigator.pop(context);
+      },
+      title: page == currentPage
+          ? Column(
+        children: <Widget>[
+          SizedBox(height: 16.0,),
+          Text(
+            page,
+            style: TextStyle(
+              color: Theme.of(context).textTheme.button.color,
+            ),
+            textAlign: TextAlign.center,
+          ),
+          SizedBox(height: 14.0),
+          Container(
+            width: 70.0,
+            height: 2.0,
+            color: Theme.of(context).indicatorColor,
+          ),
+        ],
+      )
+          : Padding(
+        padding: EdgeInsets.symmetric(vertical: 16.0),
+        child: Text(
+          page,
+          style: TextStyle(
+            color: Theme.of(context).textTheme.button.color.withAlpha(100),
+          ),
+          textAlign: TextAlign.center,
+        ),
+      ),
+    );
+  }
+
+  Route _createSettingsRoute() {
+    return PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) => SettingsPage(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          var begin = Offset(1, 0);
+          var end = Offset.zero;
+          var curve = Curves.ease;
+
+          var tween = Tween(begin: begin, end: end).chain(
+              CurveTween(curve: curve));
+          var offsetAnimation = animation.drive(tween);
+
+          return SlideTransition(
+            position: offsetAnimation,
+            child: child,
+          );
+        }
     );
   }
 }

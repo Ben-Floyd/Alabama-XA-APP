@@ -10,6 +10,11 @@ class Frame extends StatefulWidget
 {
   @override
   _FrameState createState() => _FrameState();
+
+  void gotoTab()
+  {
+
+  }
 }
 
 class _FrameState extends State<Frame>
@@ -38,7 +43,7 @@ class _FrameState extends State<Frame>
                 leading: IconButton(
                   icon: Icon(
                     Icons.menu,
-                    color: Colors.black54,
+                    color: Theme.of(context).primaryIconTheme.color,
                   ),
                   iconSize: 40,
                   tooltip: 'Menu',
@@ -56,7 +61,7 @@ class _FrameState extends State<Frame>
                   IconButton(
                     icon: Icon(
                       Icons.account_circle,
-                      color: Colors.redAccent[700],
+                      color: Theme.of(context).accentColor,
                     ),
                     iconSize: 40,
                     tooltip: 'Profile',
@@ -68,9 +73,10 @@ class _FrameState extends State<Frame>
                 ],
 
                 bottom: TabBar(
-                  labelColor: Colors.redAccent[700],
-                  unselectedLabelColor: Colors.black54,
-                  indicatorColor: Colors.redAccent[700],
+
+                  labelColor: Theme.of(context).accentColor,
+                  unselectedLabelColor: Theme.of(context).primaryIconTheme.color,
+                  indicatorColor: Theme.of(context).accentColor,
                   tabs: <Widget>[
                     Tab(child: Icon(Icons.home),),
                     Tab(child: Icon(Icons.group),),
@@ -78,7 +84,7 @@ class _FrameState extends State<Frame>
                     Tab(child: Icon(Icons.local_library),),
                   ],
                 ),
-                backgroundColor: Colors.white70,
+                backgroundColor: Theme.of(context).primaryColor.withAlpha(200),
                 centerTitle: true,
                 floating: true,
                 snap: true,
@@ -153,7 +159,7 @@ class _FrameState extends State<Frame>
   Route _createMenuRoute()
   {
     return PageRouteBuilder(
-        pageBuilder: (context, animation, secondaryAnimation) => Menu(currentPage: 'Home',),
+        pageBuilder: (context, animation, secondaryAnimation) => MenuPage(currentPage: 'Home',),
         transitionsBuilder: (context, animation, secondaryAnimation, child)
         {
           var begin = Offset(-1, 0);
