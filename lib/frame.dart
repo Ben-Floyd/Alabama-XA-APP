@@ -10,21 +10,35 @@ class Frame extends StatefulWidget
 {
   @override
   _FrameState createState() => _FrameState();
-
-  void gotoTab()
-  {
-
-  }
 }
 
-class _FrameState extends State<Frame>
+class _FrameState extends State<Frame> with SingleTickerProviderStateMixin
 {
-  final List<String> _tabs = ['Home', 'D-Group', 'Events', 'Library'];
+  static final List<String> _tabs = ['Home', 'D-Group', 'Events', 'Library'];
+  TabController _tabController;
+
+  bool gotoTab(String tab)
+  {
+    for (int i = 0; i < _tabs.length; i++)
+    {
+      if (_tabs[i] == tab)
+      {
+        setState(()
+        {
+          _tabController.index = i;
+          return true;
+        });
+      }
+    }
+    return false;
+  }
 
   @override
   void initState()
   {
     super.initState();
+
+    _tabController = TabController(vsync: this, length: _tabs.length, initialIndex: 0);
 
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   }
@@ -33,9 +47,7 @@ class _FrameState extends State<Frame>
   Widget build(BuildContext context)
   {
     return Scaffold(
-      body: DefaultTabController(
-        length: _tabs.length, // This is the number of tabs.
-        child: NestedScrollView(
+        body: NestedScrollView(
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             // These are the slivers that show up in the "outer" scroll view.
             return <Widget>[
@@ -73,7 +85,7 @@ class _FrameState extends State<Frame>
                 ],
 
                 bottom: TabBar(
-
+                  controller: _tabController,
                   labelColor: Theme.of(context).accentColor,
                   unselectedLabelColor: Theme.of(context).primaryIconTheme.color,
                   indicatorColor: Theme.of(context).accentColor,
@@ -93,6 +105,7 @@ class _FrameState extends State<Frame>
           },
           body: TabBarView(
             // These are the contents of the tab views, below the tabs.
+            controller: _tabController,
             children: _tabs.map((String name) {
               return SafeArea(
                 top: false,
@@ -122,7 +135,6 @@ class _FrameState extends State<Frame>
             }).toList(),
           ),
         ),
-      ),
     );
   }
 
@@ -159,7 +171,7 @@ class _FrameState extends State<Frame>
   Route _createMenuRoute()
   {
     return PageRouteBuilder(
-        pageBuilder: (context, animation, secondaryAnimation) => MenuPage(currentPage: 'Home',),
+        pageBuilder: (context, animation, secondaryAnimation) => MenuPage(currentPage: _tabs[_tabController.index], tabController: _tabController,),
         transitionsBuilder: (context, animation, secondaryAnimation, child)
         {
           var begin = Offset(-1, 0);

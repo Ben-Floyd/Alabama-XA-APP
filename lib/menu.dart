@@ -8,11 +8,13 @@ import 'frame.dart';
 class MenuPage extends StatelessWidget {
 
   final String currentPage;
+  final TabController tabController;
   final List<String> _pages = const ['Home', 'News', 'D-Group', 'Events', 'Library', 'Pray', 'Teams', 'Missions', 'About'];
 
   MenuPage({
     Key key,
     @required this.currentPage,
+    this.tabController,
     //@required this.onPageTap,
   }) : assert(currentPage != null);
      //assert(onPageTap != null);
@@ -61,9 +63,26 @@ class MenuPage extends StatelessWidget {
       onTap: ()
       {
         //currentPage = page;
-        //TODO update app state
+        if (tabController != null)
+        {
+          switch(page)
+          {
+            case 'Home':
+              tabController.index = 0;
+              break;
+            case 'D-Group':
+              tabController.index = 1;
+              break;
+            case 'Events':
+              tabController.index = 2;
+              break;
+            case 'Library':
+              tabController.index = 3;
+              break;
+            default:
 
-
+          }
+        }
 
         Navigator.pop(context);
       },
