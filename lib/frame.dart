@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'menu.dart';
+import 'app.dart';
 import 'login.dart';
 import 'home.dart';
 
@@ -61,7 +61,7 @@ class _FrameState extends State<Frame> with SingleTickerProviderStateMixin
                   tooltip: 'Menu',
                   onPressed: ()
                   {
-                    Navigator.of(context).push(_createMenuRoute());
+                    Navigator.of(context).pushNamed('/menu', arguments: MenuArguments(_tabs[_tabController.index], _tabController));
                   },
                 ),
                 title: Image(
@@ -166,27 +166,6 @@ class _FrameState extends State<Frame> with SingleTickerProviderStateMixin
       default:
         return Text('Invalid Tab');
     }
-  }
-
-  Route _createMenuRoute()
-  {
-    return PageRouteBuilder(
-        pageBuilder: (context, animation, secondaryAnimation) => MenuPage(currentPage: _tabs[_tabController.index], tabController: _tabController,),
-        transitionsBuilder: (context, animation, secondaryAnimation, child)
-        {
-          var begin = Offset(-1, 0);
-          var end = Offset.zero;
-          var curve = Curves.ease;
-
-          var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-          var offsetAnimation = animation.drive(tween);
-
-          return SlideTransition(
-            position: offsetAnimation,
-            child: child,
-          );
-        }
-    );
   }
 
   Route _createLoginRoute() {
