@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
-class SettingsPage extends StatelessWidget
+class AboutPage extends StatelessWidget
 {
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context)
+  {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -13,10 +14,11 @@ class SettingsPage extends StatelessWidget
             Navigator.pop(context);
           },
         ),
-        title: Text('Settings', style: TextStyle(color: Theme.of(context).textTheme.button.color),),
-        backgroundColor: Colors.transparent,
-        elevation: 0,
         centerTitle: true,
+        title: Text('About'),
+      ),
+      body: Center(
+        child: Icon(Icons.info),
       ),
     );
   }

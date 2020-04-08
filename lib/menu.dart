@@ -4,6 +4,11 @@ import 'package:meta/meta.dart';
 
 import 'settings.dart';
 import 'frame.dart';
+import 'news.dart';
+import 'pray.dart';
+import 'teams.dart';
+import 'missions.dart';
+import 'about.dart';
 
 class MenuPage extends StatelessWidget {
 
@@ -62,6 +67,7 @@ class MenuPage extends StatelessWidget {
     return ListTile(
       onTap: ()
       {
+        bool valid = true;
         //currentPage = page;
         if (tabController != null)
         {
@@ -80,11 +86,35 @@ class MenuPage extends StatelessWidget {
               tabController.index = 3;
               break;
             default:
-
+              valid = false;
           }
         }
 
         Navigator.pop(context);
+
+        if (!valid)
+        {
+          switch(page)
+          {
+            case 'News':
+              Navigator.of(context).push(_createNewsRoute());
+              break;
+            case 'Pray':
+              Navigator.of(context).push(_createPrayRoute());
+              break;
+            case 'Teams':
+              Navigator.of(context).push(_createTeamsRoute());
+              break;
+            case 'Missions':
+              Navigator.of(context).push(_createMissionsRoute());
+              break;
+            case 'About':
+              Navigator.of(context).push(_createAboutRoute());
+              break;
+            default:
+              valid = false;
+          }
+        }
       },
       title: page == currentPage
           ? Column(
@@ -118,9 +148,115 @@ class MenuPage extends StatelessWidget {
     );
   }
 
-  Route _createSettingsRoute() {
+  Route _createSettingsRoute()
+  {
     return PageRouteBuilder(
         pageBuilder: (context, animation, secondaryAnimation) => SettingsPage(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          var begin = Offset(1, 0);
+          var end = Offset.zero;
+          var curve = Curves.ease;
+
+          var tween = Tween(begin: begin, end: end).chain(
+              CurveTween(curve: curve));
+          var offsetAnimation = animation.drive(tween);
+
+          return SlideTransition(
+            position: offsetAnimation,
+            child: child,
+          );
+        }
+    );
+  }
+
+  Route _createNewsRoute()
+  {
+    return PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) => NewsPage(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          var begin = Offset(1, 0);
+          var end = Offset.zero;
+          var curve = Curves.ease;
+
+          var tween = Tween(begin: begin, end: end).chain(
+              CurveTween(curve: curve));
+          var offsetAnimation = animation.drive(tween);
+
+          return SlideTransition(
+            position: offsetAnimation,
+            child: child,
+          );
+        }
+    );
+  }
+
+  Route _createPrayRoute()
+  {
+    return PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) => PrayPage(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          var begin = Offset(1, 0);
+          var end = Offset.zero;
+          var curve = Curves.ease;
+
+          var tween = Tween(begin: begin, end: end).chain(
+              CurveTween(curve: curve));
+          var offsetAnimation = animation.drive(tween);
+
+          return SlideTransition(
+            position: offsetAnimation,
+            child: child,
+          );
+        }
+    );
+  }
+
+  Route _createTeamsRoute()
+  {
+    return PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) => TeamsPage(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          var begin = Offset(1, 0);
+          var end = Offset.zero;
+          var curve = Curves.ease;
+
+          var tween = Tween(begin: begin, end: end).chain(
+              CurveTween(curve: curve));
+          var offsetAnimation = animation.drive(tween);
+
+          return SlideTransition(
+            position: offsetAnimation,
+            child: child,
+          );
+        }
+    );
+  }
+
+  Route _createMissionsRoute()
+  {
+    return PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) => MissionsPage(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          var begin = Offset(1, 0);
+          var end = Offset.zero;
+          var curve = Curves.ease;
+
+          var tween = Tween(begin: begin, end: end).chain(
+              CurveTween(curve: curve));
+          var offsetAnimation = animation.drive(tween);
+
+          return SlideTransition(
+            position: offsetAnimation,
+            child: child,
+          );
+        }
+    );
+  }
+
+  Route _createAboutRoute()
+  {
+    return PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) => AboutPage(),
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
           var begin = Offset(1, 0);
           var end = Offset.zero;
