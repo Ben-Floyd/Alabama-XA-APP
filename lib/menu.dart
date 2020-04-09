@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 
 import 'settings.dart';
-import 'frame.dart';
 import 'news.dart';
 import 'pray.dart';
 import 'teams.dart';
@@ -13,16 +12,20 @@ import 'about.dart';
 class MenuPage extends StatelessWidget {
 
   final String currentPage;
-  final TabController tabController;
+  static TabController _tabController;
+  final TabController tc;
   final List<String> _pages = const ['Home', 'News', 'D-Group', 'Events', 'Library', 'Pray', 'Teams', 'Missions', 'About'];
 
   MenuPage({
     Key key,
     @required this.currentPage,
-    this.tabController,
+    this.tc,
     //@required this.onPageTap,
-  }) : assert(currentPage != null);
-     //assert(onPageTap != null);
+  }) : assert(currentPage != null)
+  {
+    if (tc != null)
+      _tabController = tc;
+  }
 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -67,49 +70,68 @@ class MenuPage extends StatelessWidget {
     return ListTile(
       onTap: ()
       {
-        bool valid = true;
-        //currentPage = page;
-        if (tabController != null)
+        bool valid = false;
+
+        if (['Home', 'D-Group', 'Events', 'Library'].contains(currentPage))
         {
+          valid = true;
           switch(page)
           {
             case 'Home':
-              tabController.index = 0;
+              _tabController.index = 0;
+              Navigator.pop(context);
               break;
             case 'D-Group':
-              tabController.index = 1;
+              _tabController.index = 1;
+              Navigator.pop(context);
               break;
             case 'Events':
-              tabController.index = 2;
+              _tabController.index = 2;
+              Navigator.pop(context);
               break;
             case 'Library':
-              tabController.index = 3;
+              _tabController.index = 3;
+              Navigator.pop(context);
               break;
             default:
               valid = false;
           }
         }
 
-        Navigator.pop(context);
-
         if (!valid)
         {
           switch(page)
           {
             case 'News':
-              Navigator.of(context).push(_createNewsRoute());
+              Navigator.pushReplacement(context, _createNewsRoute());
               break;
             case 'Pray':
-              Navigator.of(context).push(_createPrayRoute());
+              Navigator.pushReplacement(context, _createPrayRoute());
               break;
             case 'Teams':
-              Navigator.of(context).push(_createTeamsRoute());
+              Navigator.pushReplacement(context, _createTeamsRoute());
               break;
             case 'Missions':
-              Navigator.of(context).push(_createMissionsRoute());
+              Navigator.pushReplacement(context, _createMissionsRoute());
               break;
             case 'About':
-              Navigator.of(context).push(_createAboutRoute());
+              Navigator.pushReplacement(context, _createAboutRoute());
+              break;
+            case 'Home':
+              Navigator.pushReplacementNamed(context, '/');
+              _tabController.index = 1;
+              break;
+            case 'D-Group':
+              Navigator.pushReplacementNamed(context, '/');
+              _tabController.index = 1;
+              break;
+            case 'Events':
+              Navigator.pushReplacementNamed(context, '/');
+              _tabController.index = 2;
+              break;
+            case 'Library':
+              Navigator.pushReplacementNamed(context, '/');
+              _tabController.index = 3;
               break;
             default:
               valid = false;

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'user.dart';
+
 class LoginPage extends StatefulWidget
 {
   @override
@@ -60,7 +62,7 @@ class _LoginPageState extends State<LoginPage>
                     }
                     else
                     {
-                      Navigator.pop(context);
+                      Navigator.pop(context, 'Cancel');
                     }
                   },
                 ),
@@ -69,8 +71,8 @@ class _LoginPageState extends State<LoginPage>
                   color: Theme.of(context).accentColor,
                   onPressed: ()
                   {
-                    //TODO login and display snack
-                    Navigator.pop(context);
+                    //TODO Login through dataase
+                    Navigator.pop(context, new User(userID: 1));
                   },
                 ),
               ],

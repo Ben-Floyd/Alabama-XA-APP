@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'app.dart';
-import 'login.dart';
-import 'home.dart';
+import '../home.dart';
+import '../user.dart';
 
 class Frame extends StatefulWidget
 {
@@ -16,22 +16,6 @@ class _FrameState extends State<Frame> with SingleTickerProviderStateMixin
 {
   static final List<String> _tabs = ['Home', 'D-Group', 'Events', 'Library'];
   TabController _tabController;
-
-  bool gotoTab(String tab)
-  {
-    for (int i = 0; i < _tabs.length; i++)
-    {
-      if (_tabs[i] == tab)
-      {
-        setState(()
-        {
-          _tabController.index = i;
-          return true;
-        });
-      }
-    }
-    return false;
-  }
 
   @override
   void initState()
@@ -61,7 +45,7 @@ class _FrameState extends State<Frame> with SingleTickerProviderStateMixin
                   tooltip: 'Menu',
                   onPressed: ()
                   {
-                    Navigator.of(context).pushNamed('/menu', arguments: MenuArguments(_tabs[_tabController.index], _tabController));
+                    Navigator.pushNamed(context, '/menu', arguments: MenuArguments(_tabs[_tabController.index], _tabController));
                   },
                 ),
                 title: Image(
@@ -73,13 +57,20 @@ class _FrameState extends State<Frame> with SingleTickerProviderStateMixin
                   IconButton(
                     icon: Icon(
                       Icons.account_circle,
-                      color: Theme.of(context).accentColor,
+                      color: user != null ? Theme.of(context).accentColor : Theme.of(context).primaryIconTheme.color,
                     ),
                     iconSize: 40,
                     tooltip: 'Profile',
                     onPressed: ()
                     {
-                      Navigator.of(context).push(_createLoginRoute());
+                      if (user != null)
+                      {
+                        Navigator.pushNamed(context, '/user');
+                      }
+                      else
+                      {
+                        _login(context);
+                      }
                     },
                   ),
                 ],
@@ -168,23 +159,31 @@ class _FrameState extends State<Frame> with SingleTickerProviderStateMixin
     }
   }
 
-  Route _createLoginRoute() {
-    return PageRouteBuilder(
-        pageBuilder: (context, animation, secondaryAnimation) => LoginPage(),
-        transitionsBuilder: (context, animation, secondaryAnimation, child) {
-          var begin = Offset(1, 0);
-          var end = Offset.zero;
-          var curve = Curves.ease;
+  _login(BuildContext context) async
+  {
+    final result = await Navigator.pushNamed(context, '/login');
 
-          var tween = Tween(begin: begin, end: end).chain(
-              CurveTween(curve: curve));
-          var offsetAnimation = animation.drive(tween);
-
-          return SlideTransition(
-            position: offsetAnimation,
-            child: child,
-          );
-        }
-    );
+    if (result != 'Cancel' && result != null)
+    {
+      if (result == 'Failed')
+      {
+        Scaffold.of(context)
+          ..removeCurrentSnackBar()
+          ..showSnackBar(SnackBar(
+            content: Text('Login Unsuccessful'),
+            duration: Duration(seconds: 2),
+          ));
+      }
+      else
+      {
+        user = result;
+        Scaffold.of(context)
+          ..removeCurrentSnackBar()
+          ..showSnackBar(SnackBar(
+            content: Text("Loged in as " + user.getName()),
+            duration: Duration(seconds: 2),
+          ));
+      }
+    }
   }
 }

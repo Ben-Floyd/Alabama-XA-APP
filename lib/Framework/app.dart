@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 
 import 'frame.dart';
-import 'menu.dart';
-import 'unknown.dart';
+import '../menu.dart';
+import '../login.dart';
+import '../user.dart';
+import '../unknown.dart';
+
+User user;
 
 class MenuArguments
 {
@@ -29,10 +33,50 @@ class UAChiAlphaApp extends StatelessWidget
           return PageRouteBuilder(
               pageBuilder: (context, animation, secondaryAnimation) =>
                   MenuPage(currentPage: args.page,//_tabs[_tabController.index],
-                    tabController: args.tabController,),
+                    tc: args.tabController,),
               transitionsBuilder: (context, animation, secondaryAnimation,
                   child) {
                 var begin = Offset(-1, 0);
+                var end = Offset.zero;
+                var curve = Curves.ease;
+
+                var tween = Tween(begin: begin, end: end).chain(
+                    CurveTween(curve: curve));
+                var offsetAnimation = animation.drive(tween);
+
+                return SlideTransition(
+                  position: offsetAnimation,
+                  child: child,
+                );
+              }
+          );
+        }
+        else if (settings.name == '/login')
+        {
+          return PageRouteBuilder(
+              pageBuilder: (context, animation, secondaryAnimation) => LoginPage(),
+              transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                var begin = Offset(1, 0);
+                var end = Offset.zero;
+                var curve = Curves.ease;
+
+                var tween = Tween(begin: begin, end: end).chain(
+                    CurveTween(curve: curve));
+                var offsetAnimation = animation.drive(tween);
+
+                return SlideTransition(
+                  position: offsetAnimation,
+                  child: child,
+                );
+              }
+          );
+        }
+        else if (settings.name == '/user')
+        {
+          return PageRouteBuilder(
+              pageBuilder: (context, animation, secondaryAnimation) => UserPage(),
+              transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                var begin = Offset(1, 0);
                 var end = Offset.zero;
                 var curve = Curves.ease;
 
