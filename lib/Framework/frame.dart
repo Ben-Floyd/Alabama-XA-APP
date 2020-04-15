@@ -1,9 +1,10 @@
+import 'package:alabamachialph/Tabs/dgroup.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'app.dart';
-import '../home.dart';
+import '../Tabs/home.dart';
 import '../user.dart';
 
 class Frame extends StatefulWidget
@@ -138,9 +139,7 @@ class _FrameState extends State<Frame> with SingleTickerProviderStateMixin
         break;
       case 'D-Group':
       //TODO return DGroupTab();
-        return SliverFillRemaining(
-          child: Icon(Icons.group),
-        );
+        return DGroupTab();
         break;
       case 'Events':
       //TODO return EventsTab();

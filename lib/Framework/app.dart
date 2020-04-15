@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:google_fonts/google_fonts.dart';
+
 import 'frame.dart';
 import '../menu.dart';
 import '../login.dart';
@@ -107,7 +109,19 @@ class UAChiAlphaApp extends StatelessWidget
           button: TextStyle(
             color: Colors.black87,
           ),
-        )
+          caption: TextStyle(
+            fontSize: 10,
+          ),
+          headline1: TextStyle(
+            fontSize: 25,
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+          ),
+          headline2: TextStyle(
+            color: Colors.white,
+            fontSize: 10,
+          ),
+        ),
       ),
       darkTheme: ThemeData(
         brightness: Brightness.dark,

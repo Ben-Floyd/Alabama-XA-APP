@@ -118,19 +118,19 @@ class MenuPage extends StatelessWidget {
               Navigator.pushReplacement(context, _createAboutRoute());
               break;
             case 'Home':
-              Navigator.pushReplacementNamed(context, '/');
+              Navigator.popUntil(context, ModalRoute.withName('/'));
               _tabController.index = 1;
               break;
             case 'D-Group':
-              Navigator.pushReplacementNamed(context, '/');
+              Navigator.popUntil(context, ModalRoute.withName('/'));
               _tabController.index = 1;
               break;
             case 'Events':
-              Navigator.pushReplacementNamed(context, '/');
+              Navigator.popUntil(context, ModalRoute.withName('/'));
               _tabController.index = 2;
               break;
             case 'Library':
-              Navigator.pushReplacementNamed(context, '/');
+              Navigator.popUntil(context, ModalRoute.withName('/'));
               _tabController.index = 3;
               break;
             default:
