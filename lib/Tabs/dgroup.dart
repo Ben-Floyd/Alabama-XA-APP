@@ -25,6 +25,7 @@ class _DGroupTabState extends State<DGroupTab>
 {
   List<DGroup> _yourDGroups = [/*DGroup(), DGroup()*/];
   List<DGroup> _otherDGroups = [DGroup(), DGroup(), DGroup(), DGroup(), DGroup()];
+  List<int> filter = [];
 
   final _searchController = TextEditingController();
 
@@ -48,7 +49,7 @@ class _DGroupTabState extends State<DGroupTab>
         [
           SizedBox(height: 16.0),
           Text(
-            "Your D-Groups",
+            "Your D-Group",
             style: GoogleFonts.nunito(textStyle: Theme.of(context).primaryTextTheme.headline1),
             textAlign: TextAlign.center,
           ),
@@ -74,78 +75,16 @@ class _DGroupTabState extends State<DGroupTab>
             Text(
               "You are not in a D-Group",
               textAlign: TextAlign.center,
+              style: Theme.of(context).primaryTextTheme.headline1,
             ),
-            SizedBox(height: 14,),
-            RaisedButton(
-              onPressed: ()
-              {
-                //TODO add dgroup
-              },
-              child: Text('Find a D-Group'),
-              color: Theme.of(context).accentColor,
-            ),
-            SizedBox(height: 14,),
-            Container(
-            width:200,
-            height: 2,
-            color: Theme.of(context).accentColor,
-            ),
+            Text('Add a D-Group below by tapping on it.'),
+            SizedBox(height: 15,),
+            _buildDGroupSearch(context),
           ],
         );
       }
 
-      return Column(
-        children: <Widget>
-        [
-          SizedBox(height: 25,),
-          Container(
-            width:300,
-            height: 2,
-            color: Theme.of(context).accentColor,
-          ),
-          SizedBox(height: 25,),
-          Text(
-            "D-Groups",
-            style: GoogleFonts.nunito(textStyle: Theme.of(context).primaryTextTheme.headline1),
-            textAlign: TextAlign.center,
-          ),
-          Card(
-            margin: EdgeInsets.symmetric(vertical: 5, horizontal: 15),
-            child: Row(
-              children: <Widget>
-              [
-                SizedBox(width: 25,),
-                Flexible(
-                  child: TextField(
-                    controller: _searchController,
-                    decoration: InputDecoration(
-                      //filled: true,
-                      labelText: 'Search',
-                      prefixIcon: Icon(Icons.search),
-                    ),
-                    /*onSubmitted: ()
-                    {
-                      //TODO implement search
-                    },*/
-                  ),
-                ),
-                SizedBox(width: 10,),
-                IconButton(
-                  icon: Icon(Icons.cancel),
-                  color: Theme.of(context).primaryIconTheme.color,
-                  onPressed: ()
-                  {
-                    _searchController.clear();
-                    FocusScope.of(context).requestFocus(new FocusNode());
-
-                    //TODO clear search
-                  },
-                )
-              ],
-            ),
-          )
-        ],
-      );
+      return _buildDGroupSearch(context);
     }
 
     return _buildDgroup(context);
@@ -252,5 +191,156 @@ class _DGroupTabState extends State<DGroupTab>
         ),
       ),
     );
+  }
+
+  _buildDGroupSearch(BuildContext context)
+  {
+    return Column(
+      children: <Widget>
+      [
+        SizedBox(height: 25,),
+        Container(
+          width:300,
+          height: 2,
+          color: Theme.of(context).accentColor,
+        ),
+        SizedBox(height: 25,),
+        Text(
+          "D-Groups",
+          style: GoogleFonts.nunito(textStyle: Theme.of(context).primaryTextTheme.headline1),
+          textAlign: TextAlign.center,
+        ),
+        Card(
+          margin: EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+          child: Row(
+            children: <Widget>
+            [
+              SizedBox(width: 25,),
+              Flexible(
+                child: TextField(
+                  controller: _searchController,
+                  decoration: InputDecoration(
+                    //filled: true,
+                    labelText: 'Search',
+                    prefixIcon: Icon(Icons.search),
+                  ),
+                  /*onSubmitted: ()
+                    {
+                      //TODO implement search
+                    },*/
+                ),
+              ),
+              SizedBox(width: 10,),
+              IconButton(
+                icon: Icon(Icons.cancel),
+                color: Theme.of(context).primaryIconTheme.color,
+                onPressed: ()
+                {
+                  _searchController.clear();
+                  FocusScope.of(context).requestFocus(new FocusNode());
+
+                  //TODO clear search
+                },
+              ),
+              PopupMenuButton<int>(
+                icon: Icon(
+                  Icons.tune,
+                  color: Theme.of(context).primaryIconTheme.color,
+                ),
+                itemBuilder: (BuildContext context) => <PopupMenuEntry<int>>
+                [
+                  PopupMenuItem<int>(
+                    value: 1,
+                    child: Text('Monday'),
+                  ),
+                  PopupMenuItem<int>(
+                    value: 2,
+                    child: Text('Tuesday'),
+                  ),
+                  PopupMenuItem<int>(
+                    value: 3,
+                    child: Text('Wednesday'),
+                  ),
+                  PopupMenuItem<int>(
+                    value: 4,
+                    child: Text('Thursday'),
+                  ),
+                  PopupMenuItem<int>(
+                    value: 5,
+                    child: Text('Friday'),
+                  ),
+                ],
+                onSelected: (int value)
+                {
+                  setState(() {
+                    if (filter.contains(value))
+                    {
+                      filter.remove(value);
+                    }
+                    else
+                    {
+                      filter.add(value);
+                      filter.sort();
+                    }
+                  });
+                },
+              ),
+            ],
+          ),
+        ),
+        Row(
+          children: _buildFilterChips(context, filter),
+        ),
+      ],
+    );
+  }
+
+  _buildFilterChips(BuildContext context, List<int> filter)
+  {
+    var filterChips = List<Widget>();
+
+    filterChips.add(SizedBox(width: 15,));
+
+    for(int day in filter)
+    {
+      String txt;
+      switch (day)
+      {
+        case 1:
+          txt = 'Mo';
+          break;
+        case 2:
+          txt = 'Tu';
+          break;
+        case 3:
+          txt = 'We';
+          break;
+        case 4:
+          txt = 'Th';
+          break;
+        case 5:
+          txt = 'Fr';
+          break;
+        default:
+          txt = '';
+      }
+      filterChips.add(
+        GestureDetector(
+          onTap: ()
+          {
+            setState(() {
+              filter.remove(day);
+            });
+          },
+          child: Padding(
+            padding: EdgeInsets.only(left: 5),
+            child: Chip(
+              label: Text(txt),
+            ),
+          ),
+        )
+      );
+    }
+    return filterChips;
   }
 }
