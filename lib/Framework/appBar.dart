@@ -6,7 +6,12 @@ AppBar generateAppBar(BuildContext context, String title)
 {
   return AppBar(
     leading: IconButton(
-      icon: Icon(Icons.menu, color: Theme.of(context).textTheme.button.color,),
+      icon: Icon(
+        Icons.menu,
+        color: Theme.of(context).primaryIconTheme.color,
+      ),
+      iconSize: 40,
+      tooltip: 'Menu',
       onPressed: ()
       {
         Navigator.pushNamed(context, '/menu', arguments: MenuArguments(title, null));

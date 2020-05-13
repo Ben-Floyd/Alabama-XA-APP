@@ -119,7 +119,7 @@ class MenuPage extends StatelessWidget {
               break;
             case 'Home':
               Navigator.popUntil(context, ModalRoute.withName('/'));
-              _tabController.index = 1;
+              _tabController.index = 0;
               break;
             case 'D-Group':
               Navigator.popUntil(context, ModalRoute.withName('/'));
