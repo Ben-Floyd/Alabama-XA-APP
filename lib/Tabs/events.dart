@@ -2,6 +2,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+class EventType
+{
+  String name;
+  Icon icon;
+
+  EventType({
+    this.name,
+    this.icon,
+  });
+}
+
 class EventsTab extends StatefulWidget
 {
   @override
@@ -10,6 +21,8 @@ class EventsTab extends StatefulWidget
 
 class _EventsTabState extends State<EventsTab>
 {
+  List<EventType> types = [EventType(name: "Worship", icon: Icon(Icons.music_note)), EventType(name: "Worship", icon: Icon(Icons.music_note)), EventType(name: "Worship", icon: Icon(Icons.music_note)), EventType(name: "Worship", icon: Icon(Icons.music_note)), EventType(name: "Worship", icon: Icon(Icons.music_note)), EventType(name: "Worship", icon: Icon(Icons.music_note)), EventType(name: "Worship", icon: Icon(Icons.music_note)), EventType(name: "Worship", icon: Icon(Icons.music_note)),];
+
   @override
   Widget build(BuildContext context) {
     return SliverList(
@@ -24,55 +37,54 @@ class _EventsTabState extends State<EventsTab>
   {
     if (index == 0)
       {
-        return Row(
-          children: _buildTypeChips(context),
+        return SizedBox(
+          height: 80,
+          child: Padding(
+            padding: EdgeInsets.only(top: 10),
+            child: ListView(
+              children: _buildTypeChips(context),
+              scrollDirection: Axis.horizontal,
+            ),
+          ),
         );
       }
   }
 
   _buildTypeChips(BuildContext context)
   {
-    var filter = List<int>();
-    filter.add(1);
+    //TODO make filters and events list
     var filterChips = List<Widget>();
 
     filterChips.add(SizedBox(width: 15,));
 
-    for(int day in filter)
+    for(EventType type in types)
     {
-      String txt;
-      switch (day)
-      {
-        case 1:
-          txt = 'Mo';
-          break;
-        case 2:
-          txt = 'Tu';
-          break;
-        case 3:
-          txt = 'We';
-          break;
-        case 4:
-          txt = 'Th';
-          break;
-        case 5:
-          txt = 'Fr';
-          break;
-        default:
-          txt = '';
-      }
+      Color color = Theme.of(context).buttonColor;
+
       filterChips.add(
           GestureDetector(
             onTap: ()
             {
               setState(() {
-                //filter.remove(day);
+                color = Colors.red[700];
+                //TODO activate filter
               });
             },
             child: Padding(
-              padding: EdgeInsets.only(left: 5),
-              child: Chip(
-                label: Text(txt),
+              padding: EdgeInsets.only(left: 10),
+              child: CircleAvatar(
+                child: Column(
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.all(2),
+                    ),
+                    type.icon,
+                    Text(type.name),
+                  ],
+                ),
+                radius: 35,
+                backgroundColor: color,
+                foregroundColor: Theme.of(context).primaryTextTheme.button.color,
               ),
             ),
           )

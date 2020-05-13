@@ -122,6 +122,7 @@ class UAChiAlphaApp extends StatelessWidget
             fontSize: 10,
           ),
         ),
+        buttonColor: Colors.red[100].withGreen(190).withBlue(195),
       ),
       darkTheme: ThemeData(
         brightness: Brightness.dark,
