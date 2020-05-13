@@ -1,4 +1,5 @@
 import 'package:alabamachialph/Tabs/dgroup.dart';
+import 'package:alabamachialph/Tabs/events.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -18,12 +19,33 @@ class _FrameState extends State<Frame> with SingleTickerProviderStateMixin
   static final List<String> _tabs = ['Home', 'D-Group', 'Events', 'Library'];
   TabController _tabController;
 
+  bool _displayFAB = false;
+
   @override
   void initState()
   {
     super.initState();
 
     _tabController = TabController(vsync: this, length: _tabs.length, initialIndex: 0);
+    
+    _tabController.addListener(()
+    {
+      if (!_tabController.indexIsChanging)
+      {
+        if (_tabController.index == 2)
+        {
+          setState(() {
+            _displayFAB = true;
+          });
+        }
+        else
+        {
+          setState(() {
+            _displayFAB = false;
+          });
+        }
+      }
+    });
 
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   }
@@ -127,6 +149,15 @@ class _FrameState extends State<Frame> with SingleTickerProviderStateMixin
             }).toList(),
           ),
         ),
+      floatingActionButton: FloatingActionButton(
+        child: (_displayFAB) ? Icon(Icons.add, color: Theme.of(context).accentColor) : null ,
+        mini: false,
+        backgroundColor: (_displayFAB) ? Theme.of(context).primaryColor : Colors.transparent,
+        splashColor: Theme.of(context).accentColor,
+        elevation: 10.0,
+        disabledElevation: 0.0,
+        onPressed: (_displayFAB) ? (){_tabController.index=0;} : null ,
+      ),
     );
   }
 
@@ -138,14 +169,10 @@ class _FrameState extends State<Frame> with SingleTickerProviderStateMixin
         return HomeTab();
         break;
       case 'D-Group':
-      //TODO return DGroupTab();
         return DGroupTab();
         break;
       case 'Events':
-      //TODO return EventsTab();
-        return SliverFillRemaining(
-          child:Icon(Icons.event_note),
-        );
+        return EventsTab();
         break;
       case 'Library':
       //TODO return LibraryTab();
