@@ -12,10 +12,21 @@ App for University of Alabama Chi Alpha
   
   #### Features
   - [x] Home Screen Framework
-  - [ ] Menu
+  - [x] Menu
   - [x] Login Framework
-  - [ ] Tab Navigation
-  - [ ] Events Framework
+  - [x] Tab Navigation
+  - [x] Events Framework
+  - [x] D-Group Framework
+  - [ ] ~~News Framework~~
+   </details>
+   
+   <details>
+  <summary>v0.0.0.2</summary>
+  
+  #### Features
+  - [ ] Account Framework
+  - [ ] User Page Framework
+  - [ ] Connection to Server
   - [ ] News Framework
    </details>
   
@@ -26,6 +37,7 @@ App for University of Alabama Chi Alpha
   - [ ] Home Screen News and Events displayed
   - [ ] Login Backend
   - [ ] Events Backend
+  - [ ] D-Group Backend 
   - [ ] News Backend
    </details>
 
