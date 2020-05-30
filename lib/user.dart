@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+import 'Framework/appBar.dart';
 
 class User
 {
@@ -19,19 +22,35 @@ class UserPage extends StatelessWidget
   Widget build(BuildContext context)
   {
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios, color: Theme.of(context).textTheme.button.color,),
-          onPressed: ()
-          {
-            Navigator.pop(context);
-          },
-        ),
-        centerTitle: true,
-        title: Text('User'),
-      ),
-      body: Center(
-        child: Icon(Icons.person),
+      appBar:generateAppBar(context, "User"),
+      body: StreamBuilder(
+        stream: Firestore.instance.collection("users").snapshots(),
+        builder: (context, snapshot)
+        {
+          if (!snapshot.hasData) return const Text("Loading...");
+
+          return ListView.builder(
+            itemExtent: 80,
+            itemCount: snapshot.data.documents.length,
+            itemBuilder: (context, index) => _buildListItem(context, snapshot.data.documents[index]),
+          );
+        }
+      )
+    );
+  }
+
+  Widget _buildListItem(context, DocumentSnapshot document)
+  {
+    return ListTile(
+      title: Row(
+        children: <Widget>[
+          Expanded(
+            child: Text(document["FName"]),
+          ),
+          Expanded(
+            child: Text(document["LName"]),
+          )
+        ],
       ),
     );
   }

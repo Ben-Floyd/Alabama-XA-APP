@@ -7,6 +7,7 @@ import '../menu.dart';
 import '../login.dart';
 import '../user.dart';
 import '../unknown.dart';
+import '../createAccount.dart';
 
 User user;
 
@@ -73,6 +74,26 @@ class UAChiAlphaApp extends StatelessWidget
               }
           );
         }
+        else if (settings.name == '/createAccount')
+        {
+          return PageRouteBuilder(
+              pageBuilder: (context, animation, secondaryAnimation) => CreateAccountPage(),
+              transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                var begin = Offset(1, 0);
+                var end = Offset.zero;
+                var curve = Curves.ease;
+
+                var tween = Tween(begin: begin, end: end).chain(
+                    CurveTween(curve: curve));
+                var offsetAnimation = animation.drive(tween);
+
+                return SlideTransition(
+                  position: offsetAnimation,
+                  child: child,
+                );
+              }
+          );
+        }
         else if (settings.name == '/user')
         {
           return PageRouteBuilder(
@@ -123,6 +144,7 @@ class UAChiAlphaApp extends StatelessWidget
           ),
         ),
         buttonColor: Colors.red[100].withGreen(190).withBlue(195),
+        textSelectionColor: Colors.blue,
       ),
       darkTheme: ThemeData(
         brightness: Brightness.dark,

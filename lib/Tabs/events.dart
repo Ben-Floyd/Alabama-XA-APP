@@ -139,7 +139,11 @@ class _EventsTabState extends State<EventsTab>
                 Padding(
                   padding: EdgeInsets.all(10),
                   child: Text(name),
-                )
+                ),
+                Padding(
+                  padding: EdgeInsets.fromLTRB(150, 10, 10, 10),
+                  child: Text("Date TI:ME",),
+                ),
               ],
             ),
             Divider(

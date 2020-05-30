@@ -24,7 +24,7 @@ class _LoginPageState extends State<LoginPage>
             SizedBox(height: 80.0),
             Column(
               children: <Widget>[
-                Image.asset('res/xa_alabama_logo_transparent.png'),
+                Image.asset("res/xa_alabama_logo_transparent.png"),
               ]
             ),
             SizedBox(height: 120.0),
@@ -32,7 +32,7 @@ class _LoginPageState extends State<LoginPage>
               controller: _usernameController,
               decoration: InputDecoration(
                 filled: true,
-                labelText: 'Username',
+                labelText: "Email",
               ),
             ),
             SizedBox(height: 12),
@@ -40,14 +40,14 @@ class _LoginPageState extends State<LoginPage>
               controller: _passwordController,
               decoration: InputDecoration(
                 filled: true,
-                labelText: 'Password',
+                labelText: "Password",
               ),
               obscureText: true,
             ),
             ButtonBar(
               children: <Widget>[
                 FlatButton(
-                  child: Text('CANCEL'),
+                  child: Text("CANCEL"),
                   textColor: Theme.of(context).primaryTextTheme.button.color,
                   onPressed: ()
                   {
@@ -62,12 +62,12 @@ class _LoginPageState extends State<LoginPage>
                     }
                     else
                     {
-                      Navigator.pop(context, 'Cancel');
+                      Navigator.pop(context, "Cancel");
                     }
                   },
                 ),
                 RaisedButton(
-                  child: Text('LOGIN'),
+                  child: Text("LOGIN"),
                   color: Theme.of(context).accentColor,
                   onPressed: ()
                   {
@@ -76,6 +76,24 @@ class _LoginPageState extends State<LoginPage>
                   },
                 ),
               ],
+            ),
+            Align(
+              alignment: Alignment.centerRight,
+              child: FlatButton(
+                child: Text("Create Account"),
+                textColor: Theme.of(context).textSelectionColor,
+              onPressed: ()
+              {
+                Navigator.pushNamed(context, "/createAccount");
+              },
+              ),
+            ),
+            Align(
+              alignment: Alignment.centerRight,
+              child: FlatButton(
+                child: Text("Forgot Password"),
+                textColor: Theme.of(context).textSelectionColor,
+              ),
             ),
           ],
         ),
