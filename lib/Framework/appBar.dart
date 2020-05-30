@@ -65,7 +65,7 @@ _login(BuildContext context) async
       Scaffold.of(context)
         ..removeCurrentSnackBar()
         ..showSnackBar(SnackBar(
-          content: Text("Loged in as " + user.getName()),
+          content: Text("Loged in as " + await user.getName()),
           duration: Duration(seconds: 2),
         ));
     }

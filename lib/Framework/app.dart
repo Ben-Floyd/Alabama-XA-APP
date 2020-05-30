@@ -142,6 +142,10 @@ class UAChiAlphaApp extends StatelessWidget
             color: Colors.white,
             fontSize: 10,
           ),
+          overline: TextStyle(
+            color: Colors.red[900],
+            fontSize: 15,
+          )
         ),
         buttonColor: Colors.red[100].withGreen(190).withBlue(195),
         textSelectionColor: Colors.blue,

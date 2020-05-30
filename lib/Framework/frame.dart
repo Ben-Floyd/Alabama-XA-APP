@@ -191,25 +191,13 @@ class _FrameState extends State<Frame> with SingleTickerProviderStateMixin
 
     if (result != 'Cancel' && result != null)
     {
-      if (result == 'Failed')
-      {
-        Scaffold.of(context)
-          ..removeCurrentSnackBar()
-          ..showSnackBar(SnackBar(
-            content: Text('Login Unsuccessful'),
-            duration: Duration(seconds: 2),
-          ));
-      }
-      else
-      {
-        user = result;
-        Scaffold.of(context)
-          ..removeCurrentSnackBar()
-          ..showSnackBar(SnackBar(
-            content: Text("Loged in as " + user.getName()),
-            duration: Duration(seconds: 2),
-          ));
-      }
+      user = result;
+      Scaffold.of(context)
+        ..removeCurrentSnackBar()
+        ..showSnackBar(SnackBar(
+          content: Text("Loged in as " + await user.getName()),
+          duration: Duration(seconds: 2),
+        ));
     }
   }
 }

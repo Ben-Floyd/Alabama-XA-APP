@@ -1,19 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import 'Framework/appBar.dart';
 
 class User
 {
-  final int userID;
+  final FirebaseUser user;
 
-  String getName()
+  Future<String> getName() async
   {
-    //TODO fetch from database
-    return "Benjamin Floyd";
+    String name = "ERROR";
+    await Firestore.instance.collection("users").document(user.uid).get().then((DocumentSnapshot ds)
+    {
+      name = ds["name"];
+    });
+
+    return name;
   }
 
-  User({@required this.userID}) : assert(userID != null);
+  Future<String> getGender() async
+  {
+    String gender = "ERROR";
+    await Firestore.instance.collection("users").document(user.uid).get().then((DocumentSnapshot ds)
+    {
+      gender = ds["gender"];
+    });
+
+    return gender;
+  }
+
+  User({@required this.user}) : assert(user != null);
 }
 
 class UserPage extends StatelessWidget
@@ -45,11 +62,8 @@ class UserPage extends StatelessWidget
       title: Row(
         children: <Widget>[
           Expanded(
-            child: Text(document["FName"]),
+            child: Text(document["name"]),
           ),
-          Expanded(
-            child: Text(document["LName"]),
-          )
         ],
       ),
     );

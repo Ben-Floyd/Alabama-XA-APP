@@ -13,8 +13,7 @@ enum GradeYear { freshman, sophomore, junior, senior, graduate }
 
 class _CreateAccountPageState extends State<CreateAccountPage>
 {
-  final _fNameController = TextEditingController();
-  final __lNameController = TextEditingController();
+  final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _confirmEmailController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -49,21 +48,10 @@ class _CreateAccountPageState extends State<CreateAccountPage>
               height: _spacing,
             ),
             TextField(
-              controller: _fNameController,
+              controller: _nameController,
               decoration: InputDecoration(
                 filled: true,
                 labelText: "First Name",
-              ),
-              obscureText: false,
-            ),
-            SizedBox(
-              height: _spacing,
-            ),
-            TextField(
-              controller: __lNameController,
-              decoration: InputDecoration(
-                filled: true,
-                labelText: "Last Name",
               ),
               obscureText: false,
             ),
@@ -205,6 +193,26 @@ class _CreateAccountPageState extends State<CreateAccountPage>
                     });
                   }
               ),
+            ),
+            ButtonBar(
+              children: <Widget>[
+                FlatButton(
+                  child: Text("CANCEL"),
+                  textColor: Theme.of(context).primaryTextTheme.button.color,
+                  onPressed: ()
+                  {
+                      Navigator.pop(context);
+                  },
+                ),
+                RaisedButton(
+                  child: Text("Create Account"),
+                  color: Theme.of(context).accentColor,
+                  onPressed: ()
+                  {
+                    //TODO Create Account
+                  },
+                ),
+              ],
             ),
           ],
         ),

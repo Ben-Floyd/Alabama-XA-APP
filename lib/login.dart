@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import 'user.dart';
 
@@ -10,8 +11,10 @@ class LoginPage extends StatefulWidget
 
 class _LoginPageState extends State<LoginPage>
 {
-  final _usernameController = TextEditingController();
+  final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+
+  String _errorMessage = "";
 
   @override
   Widget build(BuildContext context)
@@ -28,12 +31,15 @@ class _LoginPageState extends State<LoginPage>
               ]
             ),
             SizedBox(height: 120.0),
+            Text(_errorMessage, style: Theme.of(context).primaryTextTheme.overline,),
+            SizedBox(height: 20.0),
             TextField(
-              controller: _usernameController,
+              controller: _emailController,
               decoration: InputDecoration(
                 filled: true,
                 labelText: "Email",
               ),
+              obscureText: false,
             ),
             SizedBox(height: 12),
             TextField(
@@ -54,7 +60,7 @@ class _LoginPageState extends State<LoginPage>
                     // Checks Keyboard Visibility
                     if (MediaQuery.of(context).viewInsets.bottom != 0)
                     {
-                      _usernameController.clear();
+                      _emailController.clear();
                       _passwordController.clear();
 
                       // Removes Focus from Text Field
@@ -71,8 +77,7 @@ class _LoginPageState extends State<LoginPage>
                   color: Theme.of(context).accentColor,
                   onPressed: ()
                   {
-                    //TODO Login through dataase
-                    Navigator.pop(context, new User(userID: 1));
+                    _login();
                   },
                 ),
               ],
@@ -99,5 +104,44 @@ class _LoginPageState extends State<LoginPage>
         ),
       )
     );
+  }
+
+  Future<bool> _login() async
+  {
+    if (_emailController.text.isNotEmpty && _passwordController.text.isNotEmpty)
+    {
+      AuthResult result = null;
+      try {
+        result = await FirebaseAuth.instance
+            .signInWithEmailAndPassword(
+          email: _emailController.text,
+          password: _passwordController.text,
+        );
+      }
+      catch(e)
+      {
+        setState(() {
+          _errorMessage = "Incorrect Email and/or Password";
+        });
+      }
+
+      if (result.user != null)
+      {
+        Navigator.pop(context, new User(user: result.user));
+      }
+      else
+      {
+        setState(() {
+          _errorMessage = "Incorrect Email and/or Password";
+        });
+      }
+    }
+    else
+    {
+      setState(()
+      {
+        _errorMessage = "Incorrect Email and/or Password";
+      });
+    }
   }
 }
