@@ -66,7 +66,7 @@ class UserPage extends StatelessWidget
             Navigator.pop(context);
           },
         ),
-        title: Text('User', style: TextStyle(color: Theme.of(context).textTheme.button.color),),
+        title: Text('Profile', style: TextStyle(color: Theme.of(context).textTheme.button.color),),
         actions: <Widget>
         [
           IconButton(
