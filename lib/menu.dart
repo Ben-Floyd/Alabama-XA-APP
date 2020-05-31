@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'package:meta/meta.dart';
 
-import 'settings.dart';
 import 'news.dart';
 import 'pray.dart';
 import 'teams.dart';
@@ -44,7 +43,7 @@ class MenuPage extends StatelessWidget {
             icon: Icon(Icons.settings, color: Theme.of(context).textTheme.button.color,),
             onPressed: ()
             {
-              Navigator.of(context).push(_createSettingsRoute());
+              Navigator.pushNamed(context, "/settings");
             },
           )
         ],
@@ -59,6 +58,40 @@ class MenuPage extends StatelessWidget {
             children: _pages.map((String p)
             => _buildPageListing(p, context)).toList(),
           ),
+        ),
+      ),
+      bottomNavigationBar: BottomAppBar(
+        child: ButtonBar(
+          alignment: MainAxisAlignment.center,
+          children: <Widget>[
+           SizedBox(
+              width: 175,
+              child:  FlatButton(
+                child: Text("Feedback", style: TextStyle(fontSize: 15),),
+                textColor: Theme.of(context).textSelectionColor,
+                onPressed: ()
+                {
+                  //TODO
+                },
+              ),
+            ),
+            SizedBox(
+              width: 125,
+              child:  FlatButton(
+                child: Row(
+                  children: <Widget>[
+                    Text("Bug Report", style: Theme.of(context).primaryTextTheme.button,),
+                    Padding(padding: EdgeInsets.only(right: 5)),
+                    Icon(Icons.bug_report, color: Colors.green,),
+                  ],
+                ),
+                onPressed: ()
+                {
+                  // TODO
+                },
+              ),
+            ),
+          ],
         ),
       ),
       backgroundColor: Theme.of(context).primaryColor,
@@ -167,27 +200,6 @@ class MenuPage extends StatelessWidget {
           textAlign: TextAlign.center,
         ),
       ),
-    );
-  }
-
-  Route _createSettingsRoute()
-  {
-    return PageRouteBuilder(
-        pageBuilder: (context, animation, secondaryAnimation) => SettingsPage(),
-        transitionsBuilder: (context, animation, secondaryAnimation, child) {
-          var begin = Offset(1, 0);
-          var end = Offset.zero;
-          var curve = Curves.ease;
-
-          var tween = Tween(begin: begin, end: end).chain(
-              CurveTween(curve: curve));
-          var offsetAnimation = animation.drive(tween);
-
-          return SlideTransition(
-            position: offsetAnimation,
-            child: child,
-          );
-        }
     );
   }
 

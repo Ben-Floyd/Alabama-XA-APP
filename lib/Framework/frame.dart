@@ -1,5 +1,7 @@
 import 'package:alabamachialph/Tabs/dgroup.dart';
 import 'package:alabamachialph/Tabs/events.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -25,6 +27,8 @@ class _FrameState extends State<Frame> with SingleTickerProviderStateMixin
   void initState()
   {
     super.initState();
+
+    getUser();
 
     _tabController = TabController(vsync: this, length: _tabs.length, initialIndex: 0);
     
@@ -195,9 +199,26 @@ class _FrameState extends State<Frame> with SingleTickerProviderStateMixin
       Scaffold.of(context)
         ..removeCurrentSnackBar()
         ..showSnackBar(SnackBar(
-          content: Text("Loged in as " + await user.getName()),
+          content: Text("Loged in as " + user.getName()),
           duration: Duration(seconds: 2),
         ));
+    }
+  }
+  void getUser() async
+  {
+    try
+    {
+      FirebaseUser currentUser = await FirebaseAuth.instance.currentUser();
+      if (currentUser != null)
+      {
+        setState(() {
+          user = new User(user: currentUser);
+        });
+      }
+    }
+    catch (e)
+    {
+      print(e.toString());
     }
   }
 }

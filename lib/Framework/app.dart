@@ -8,6 +8,7 @@ import '../login.dart';
 import '../user.dart';
 import '../unknown.dart';
 import '../createAccount.dart';
+import '../settings.dart';
 
 User user;
 
@@ -114,8 +115,30 @@ class UAChiAlphaApp extends StatelessWidget
               }
           );
         }
+        else if (settings.name == "/settings")
+        {
+          return PageRouteBuilder(
+              pageBuilder: (context, animation, secondaryAnimation) => SettingsPage(),
+              transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                var begin = Offset(1, 0);
+                var end = Offset.zero;
+                var curve = Curves.ease;
 
-        return MaterialPageRoute(builder: (context) => UnknownPage());
+                var tween = Tween(begin: begin, end: end).chain(
+                    CurveTween(curve: curve));
+                var offsetAnimation = animation.drive(tween);
+
+                return SlideTransition(
+                  position: offsetAnimation,
+                  child: child,
+                );
+              }
+          );
+        }
+        else
+        {
+          return MaterialPageRoute(builder: (context) => UnknownPage());
+        }
       },
       themeMode: ThemeMode.light,
       theme: ThemeData(
@@ -133,6 +156,10 @@ class UAChiAlphaApp extends StatelessWidget
           caption: TextStyle(
             fontSize: 10,
           ),
+          bodyText1: TextStyle(
+            fontSize: 15,
+            color: Colors.black54,
+          ),
           headline1: TextStyle(
             fontSize: 25,
             color: Colors.black,
@@ -141,6 +168,10 @@ class UAChiAlphaApp extends StatelessWidget
           headline2: TextStyle(
             color: Colors.white,
             fontSize: 10,
+          ),
+          headline3: TextStyle(
+            color: Colors.black,
+            fontSize: 20,
           ),
           overline: TextStyle(
             color: Colors.red[900],

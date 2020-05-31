@@ -122,6 +122,7 @@ class _LoginPageState extends State<LoginPage>
       {
         setState(() {
           _errorMessage = "Incorrect Email and/or Password";
+          print("\n\n\n\n" + e.toString() + "\n\n\n\n" + _emailController.text + "\n" + _passwordController.text + "\n\n\n\n");
         });
       }
 
@@ -133,6 +134,7 @@ class _LoginPageState extends State<LoginPage>
       {
         setState(() {
           _errorMessage = "Incorrect Email and/or Password";
+          print("\n\n\n\n null \n\n\n\n");
         });
       }
     }
