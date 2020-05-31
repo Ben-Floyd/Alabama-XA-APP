@@ -24,18 +24,19 @@ App for University of Alabama Chi Alpha
   <summary>v0.0.0.2</summary>
   
   #### Features
-  - [ ] Account Framework
-  - [ ] User Page Framework
-  - [ ] Connection to Server
-  - [ ] News Framework
+  - [x] Account Framework
+  - [x] User Profile Page
+  - [x] Connection to Server
+  - [ ] Basic Events Implementation
    </details>
   
   <details>
   <summary>v0.1.x.x (future)</summary>
   
   #### Features
-  - [ ] Home Screen News and Events displayed
-  - [ ] Login Backend
+  - [ ] Home Screen (News, Events, and D-Group info displayed)
+  - [x] Login Backend
+  - [ ] Account Creation and Recovery
   - [ ] Events Backend
   - [ ] D-Group Backend 
   - [ ] News Backend
