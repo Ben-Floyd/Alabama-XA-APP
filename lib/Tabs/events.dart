@@ -1,6 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import 'package:alabamachialph/Account/user.dart';
+import 'package:alabamachialph/Framework/util.dart';
 
 class EventType
 {
@@ -13,6 +18,24 @@ class EventType
   });
 }
 
+class Event
+{
+  List<EventType> types;
+  User owner;
+  List<User> members;
+  String name;
+  String description;
+  //TODO time
+  //TODO location
+
+  Event({
+    this.types,
+    this.owner,
+    this.name,
+    this.description,
+  });
+}
+
 class EventsTab extends StatefulWidget
 {
   @override
@@ -21,20 +44,86 @@ class EventsTab extends StatefulWidget
 
 class _EventsTabState extends State<EventsTab>
 {
-  List<EventType> types = [EventType(name: "Worship", icon: Icon(Icons.music_note)), EventType(name: "Worship", icon: Icon(Icons.music_note)), EventType(name: "Worship", icon: Icon(Icons.music_note)), EventType(name: "Worship", icon: Icon(Icons.music_note)), EventType(name: "Worship", icon: Icon(Icons.music_note)), EventType(name: "Worship", icon: Icon(Icons.music_note)), EventType(name: "Worship", icon: Icon(Icons.music_note)), EventType(name: "Worship", icon: Icon(Icons.music_note)),];
+  List<EventType> _types = new List<EventType>();
+  List<DocumentSnapshot> _events = new List<DocumentSnapshot>();
+  bool _dataRecieved = false;
 
+  static List<Color> chipColors = new List<Color>();
+  
+  @override
+  void initState()
+  {
+    super.initState();
+    
+    _readData();
+  }
+  
   @override
   Widget build(BuildContext context) {
-    return SliverList(
-      delegate: SliverChildBuilderDelegate(
-          (context, index) => _buildRow(context, index),
-        childCount: 5,
-      ),
-    );
+    if (!_dataRecieved)
+    {
+      return SliverList(
+        delegate: SliverChildBuilderDelegate(
+            (context, index) => _buildProgressIndicator(context, index),
+          childCount: 2,
+        ),
+      );
+    }
+    else
+    {
+      return StreamBuilder(
+        stream: Firestore.instance.collection('events').snapshots(),
+        builder: (context, snapshot)
+          {
+            if (!snapshot.hasData)
+            {
+              return SliverList(
+                delegate: SliverChildBuilderDelegate(
+                      (context, index) => _buildProgressIndicator(context, index),
+                  childCount: 2,
+                ),
+              );
+            }
+            else
+            {
+              return SliverList(
+                delegate: SliverChildBuilderDelegate(
+                      (context, index) => _buildRow(context, index, snapshot.data.documents[index]),
+                  childCount: snapshot.data.documents.length,
+                ),
+              );
+            }
+          }
+      );
+    }
   }
 
-  Widget _buildRow(BuildContext context, int index)
+  Widget _buildProgressIndicator(BuildContext context, int index)
   {
+    if (index == 1) {
+      return SizedBox(
+        height: 35,
+        width: 1,
+        child: Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
+    else
+    {
+      return SizedBox(
+        height: 50,
+      );
+    }
+  }
+
+  Widget _buildRow(BuildContext context, int index, DocumentSnapshot ds)
+  {
+    if (ds["types"] == null)
+    {
+      _events.add(ds);
+    }
+
     if (index == 0)
     {
       return SizedBox(
@@ -48,9 +137,9 @@ class _EventsTabState extends State<EventsTab>
         ),
       );
     }
-    else
+    else if (_events.isNotEmpty)
     {
-      return _buildEvent(context, "Event Name", "Description of event.", EventType());
+      return _buildEvent(context, _events.removeLast());
     }
   }
 
@@ -61,18 +150,32 @@ class _EventsTabState extends State<EventsTab>
 
     filterChips.add(SizedBox(width: 15,));
 
-    for(EventType type in types)
+    for(int i = 0; i < _types.length; i++)
     {
-      Color color = Theme.of(context).buttonColor;
+      if (i > chipColors.length - 1)
+      {
+        chipColors.add(Theme.of(context).buttonColor);
+      }
 
+      //TODO sort chips by selection
       filterChips.add(
           GestureDetector(
             onTap: ()
             {
-              setState(() {
-                color = Colors.red[700];
-                //TODO activate filter
-              });
+              if (chipColors[i] != Theme.of(context).accentColor)
+              {
+                setState(() {
+                  chipColors[i] = Theme.of(context).accentColor;
+                  //TODO activate filter
+                });
+              }
+              else
+              {
+                setState(() {
+                  chipColors[i] = Theme.of(context).buttonColor;
+                  //TODO deactivate filter
+                });
+              }
             },
             child: Padding(
               padding: EdgeInsets.only(left: 10),
@@ -82,12 +185,12 @@ class _EventsTabState extends State<EventsTab>
                     Padding(
                       padding: EdgeInsets.all(2),
                     ),
-                    type.icon,
-                    Text(type.name),
+                    _types[i].icon,
+                    Text(_types[i].name),
                   ],
                 ),
                 radius: 35,
-                backgroundColor: color,
+                backgroundColor: chipColors[i].withAlpha(150),
                 foregroundColor: Theme.of(context).primaryTextTheme.button.color,
               ),
             ),
@@ -100,7 +203,7 @@ class _EventsTabState extends State<EventsTab>
   //TODO create object people
   //TODO add DateTime to params
   //TODO add list of people to params
-  _buildEvent(BuildContext context, String name, String description, EventType type/*, DateTime dateTime, List<String> people*/)
+  _buildEvent(BuildContext context, DocumentSnapshot ds)
   {
     return GestureDetector(
       onTap: ()
@@ -108,7 +211,7 @@ class _EventsTabState extends State<EventsTab>
         //TODO make hero animation to event page
         showDialog(context: context,
           child: SimpleDialog(
-            title: Text(name),
+            title: Text(ds["name"]),
             children: <Widget>
             [
               Padding(
@@ -135,14 +238,15 @@ class _EventsTabState extends State<EventsTab>
 
             // Name and date-time
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Padding(
                   padding: EdgeInsets.all(10),
-                  child: Text(name),
+                  child: Text(ds["name"]),
                 ),
                 Padding(
-                  padding: EdgeInsets.fromLTRB(150, 10, 10, 10),
-                  child: Text("Date TI:ME",),
+                  padding: EdgeInsets.fromLTRB(0, 10, 10, 10),
+                  child: Text(displayDateTime(ds["time"].toDate().toLocal(), false),),
                 ),
               ],
             ),
@@ -151,9 +255,7 @@ class _EventsTabState extends State<EventsTab>
             ),
 
             // Description
-            Text(
-              description
-            ),
+            Text(ds["description"]),
 
             // People
             SizedBox(
@@ -179,7 +281,10 @@ class _EventsTabState extends State<EventsTab>
               child: ListView(
                 scrollDirection: Axis.horizontal,
                 children: <Widget>[
-                  Chip(label: Text("type"),),
+                  Padding(
+                    padding: EdgeInsets.only(left: 10),
+                  ),
+                  Chip(label: Text(ds["type"].toLowerCase()),),
                 ],
               ),
             ),
@@ -187,5 +292,20 @@ class _EventsTabState extends State<EventsTab>
         ),
       ),
     );
+  }
+  
+  void _readData() async
+  {
+    await Firestore.instance.collection('events').document('type').get().then((DocumentSnapshot ds)
+    {
+      for (int i = 0; i < ds['types'].length; i++)
+        {
+          String name = (List.from(ds['types'])[i]['Name']);
+          IconData icon = (MdiIcons.fromString(List.from(ds['types'])[i]['Icon']));
+          _types.add(new EventType(name: name, icon: Icon(icon)));
+        }
+    });
+    
+    _dataRecieved = true;
   }
 }

@@ -6,9 +6,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'app.dart';
-import '../Tabs/home.dart';
-import '../user.dart';
+import 'package:alabamachialph/Framework/app.dart';
+import 'package:alabamachialph/Tabs/home.dart';
+import 'file:///C:/Users/ben_j/AndroidStudioProjects/alabama_chi_alpha/lib/Account/user.dart';
 
 class Frame extends StatefulWidget
 {

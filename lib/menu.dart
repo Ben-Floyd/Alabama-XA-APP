@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 
 import 'package:meta/meta.dart';
 
-import 'news.dart';
-import 'pray.dart';
-import 'teams.dart';
-import 'missions.dart';
-import 'about.dart';
+import 'file:///C:/Users/ben_j/AndroidStudioProjects/alabama_chi_alpha/lib/MainPages/news.dart';
+import 'file:///C:/Users/ben_j/AndroidStudioProjects/alabama_chi_alpha/lib/MainPages/pray.dart';
+import 'file:///C:/Users/ben_j/AndroidStudioProjects/alabama_chi_alpha/lib/MainPages/teams.dart';
+import 'file:///C:/Users/ben_j/AndroidStudioProjects/alabama_chi_alpha/lib/MainPages/missions.dart';
+import 'file:///C:/Users/ben_j/AndroidStudioProjects/alabama_chi_alpha/lib/MainPages/about.dart';
 
 class MenuPage extends StatelessWidget {
 
@@ -62,11 +62,10 @@ class MenuPage extends StatelessWidget {
       ),
       bottomNavigationBar: BottomAppBar(
         child: ButtonBar(
-          alignment: MainAxisAlignment.center,
+          alignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-           SizedBox(
-              width: 175,
-              child:  FlatButton(
+              FlatButton(
+                padding: EdgeInsets.only(left: 60),
                 child: Text("Feedback", style: TextStyle(fontSize: 15),),
                 textColor: Theme.of(context).textSelectionColor,
                 onPressed: ()
@@ -74,10 +73,8 @@ class MenuPage extends StatelessWidget {
                   //TODO
                 },
               ),
-            ),
-            SizedBox(
-              width: 125,
-              child:  FlatButton(
+              FlatButton(
+                padding: EdgeInsets.only(right: 30),
                 child: Row(
                   children: <Widget>[
                     Text("Bug Report", style: Theme.of(context).primaryTextTheme.button,),
@@ -90,7 +87,6 @@ class MenuPage extends StatelessWidget {
                   // TODO
                 },
               ),
-            ),
           ],
         ),
       ),

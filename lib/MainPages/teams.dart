@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'Framework/appBar.dart';
+import 'package:alabamachialph/Framework/appBar.dart';
 
 class TeamsPage extends StatelessWidget
 {

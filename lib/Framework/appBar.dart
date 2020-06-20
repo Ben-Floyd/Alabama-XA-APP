@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'app.dart';
+import 'package:alabamachialph/Framework/app.dart';
 
 AppBar generateAppBar(BuildContext context, String title)
 {

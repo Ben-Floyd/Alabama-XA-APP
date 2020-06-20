@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 
 import 'package:google_fonts/google_fonts.dart';
 
-import 'frame.dart';
-import '../menu.dart';
-import '../login.dart';
-import '../user.dart';
-import '../unknown.dart';
-import '../createAccount.dart';
-import '../settings.dart';
+import 'package:alabamachialph/Framework/frame.dart';
+import 'package:alabamachialph/menu.dart';
+import 'file:///C:/Users/ben_j/AndroidStudioProjects/alabama_chi_alpha/lib/Account/login.dart';
+import 'file:///C:/Users/ben_j/AndroidStudioProjects/alabama_chi_alpha/lib/Account/user.dart';
+import 'package:alabamachialph/unknown.dart';
+import 'file:///C:/Users/ben_j/AndroidStudioProjects/alabama_chi_alpha/lib/Account/createAccount.dart';
+import 'package:alabamachialph/settings.dart';
 
 User user;
 
@@ -178,7 +178,7 @@ class UAChiAlphaApp extends StatelessWidget
             fontSize: 15,
           )
         ),
-        buttonColor: Colors.red[100].withGreen(190).withBlue(195),
+        buttonColor: Colors.grey,
         textSelectionColor: Colors.blue,
       ),
       darkTheme: ThemeData(
